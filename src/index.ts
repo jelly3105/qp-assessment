@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import signUpRouter from "./routes/signup";
 import loginRouter from "./routes/login";
-import productRouter from "./routes/product/addProduct";
+import productRouter from "./routes/product";
 
 dotenv.config();
 

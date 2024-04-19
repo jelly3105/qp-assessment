@@ -1,8 +1,8 @@
 import express, { Router, Request, Response } from "express";
-import admin from "../../middlewares/admin";
-import auth from "../../middlewares/auth";
-import validateEmail from "../../middlewares/validateEmail";
-import Product from "../../models/product";
+import admin from "../middlewares/admin";
+import auth from "../middlewares/auth";
+import validateEmail from "../middlewares/validateEmail";
+import Product from "../models/product";
 const productRouter:Router = express.Router();
 
 productRouter.post('/api/addProduct', validateEmail, auth, admin, async (req: Request, res: Response) => {
@@ -26,7 +26,6 @@ productRouter.post('/api/addProduct', validateEmail, auth, admin, async (req: Re
     }catch(e:any){
         return res.status(500).json({error: e.message});
     }
-   
 })
 
 productRouter.get('/api/viewProducts', validateEmail, auth, admin, async (req: Request, res: Response) => {
@@ -37,7 +36,23 @@ productRouter.get('/api/viewProducts', validateEmail, auth, admin, async (req: R
     }catch(e:any){
         return res.status(500).json({error: e.message});
     }
-   
+})
+
+productRouter.post('/api/removeProduct', validateEmail, auth, admin, async (req: Request, res: Response) => {
+    try{
+        const {productId} = req.body;
+        let product = await Product.findOne({_id:productId});
+
+        if(!product) {
+            return res.status(400).json({msg: 'product is not present'});
+        }
+
+        await Product.deleteOne({_id: productId});
+        return res.status(200).json({msg: "Product deleted successfully"});
+        
+    }catch(e:any){
+        return res.status(500).json({error: e.message});
+    }
 })
 
 export default productRouter;
