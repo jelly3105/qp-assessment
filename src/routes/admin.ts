@@ -3,9 +3,9 @@ import admin from "../middlewares/admin";
 import auth from "../middlewares/auth";
 import validateEmail from "../middlewares/validateEmail";
 import Product from "../models/product";
-const productRouter:Router = express.Router();
+const adminRouter:Router = express.Router();
 
-productRouter.post('/api/addProduct', validateEmail, auth, admin, async (req: Request, res: Response) => {
+adminRouter.post('/api/addProduct', validateEmail, auth, admin, async (req: Request, res: Response) => {
     try{
         const {name, category, instock, price} = req.body;
         let product = await Product.findOne({name:name});
@@ -28,7 +28,7 @@ productRouter.post('/api/addProduct', validateEmail, auth, admin, async (req: Re
     }
 })
 
-productRouter.get('/api/viewProducts', validateEmail, auth, admin, async (req: Request, res: Response) => {
+adminRouter.get('/api/viewProducts', validateEmail, auth, admin, async (req: Request, res: Response) => {
     try{
         const products = await Product.find();
         return res.status(200).json({products: products});
@@ -38,7 +38,7 @@ productRouter.get('/api/viewProducts', validateEmail, auth, admin, async (req: R
     }
 })
 
-productRouter.post('/api/removeProduct', validateEmail, auth, admin, async (req: Request, res: Response) => {
+adminRouter.post('/api/removeProduct', validateEmail, auth, admin, async (req: Request, res: Response) => {
     try{
         const {productId} = req.body;
         let product = await Product.findOne({_id:productId});
@@ -55,7 +55,7 @@ productRouter.post('/api/removeProduct', validateEmail, auth, admin, async (req:
     }
 })
 
-productRouter.post('/api/updateProduct', validateEmail, auth, admin, async (req: Request, res: Response) => {
+adminRouter.post('/api/updateProduct', validateEmail, auth, admin, async (req: Request, res: Response) => {
     try{
         const {productId, updateData} = req.body;
         let product = await Product.findOne({_id:productId});
@@ -72,4 +72,4 @@ productRouter.post('/api/updateProduct', validateEmail, auth, admin, async (req:
     }
 })
 
-export default productRouter;
+export default adminRouter;
