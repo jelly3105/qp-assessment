@@ -29,4 +29,15 @@ productRouter.post('/api/addProduct', validateEmail, auth, admin, async (req: Re
    
 })
 
+productRouter.get('/api/viewProducts', validateEmail, auth, admin, async (req: Request, res: Response) => {
+    try{
+        const products = await Product.find();
+        return res.status(200).json({products: products});
+        
+    }catch(e:any){
+        return res.status(500).json({error: e.message});
+    }
+   
+})
+
 export default productRouter;
