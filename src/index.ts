@@ -1,13 +1,27 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
+import cors from "cors";
+import authRouter from "./routes/signup";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
+const dbPassword = process.env.DBPASSWORD;
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server change");
+// Use middlewares
+app.use(express.json());
+app.use(cors());
+
+app.use(authRouter);
+
+const DB = `mongodb+srv://AnjaliSherikar:${dbPassword}@cluster0.effefqo.mongodb.net/`;
+
+mongoose.connect(DB).then(()=>{
+    console.log("MongoDB Connected Successfully");
+}).catch((err)=>{
+    console.log(err);
 });
 
 app.listen(port, () => {
