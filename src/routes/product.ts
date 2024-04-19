@@ -55,4 +55,21 @@ productRouter.post('/api/removeProduct', validateEmail, auth, admin, async (req:
     }
 })
 
+productRouter.post('/api/updateProduct', validateEmail, auth, admin, async (req: Request, res: Response) => {
+    try{
+        const {productId, updateData} = req.body;
+        let product = await Product.findOne({_id:productId});
+
+        if(!product) {
+            return res.status(400).json({msg: 'product is not present'});
+        }
+
+        await Product.updateOne({ _id: productId }, { $set: updateData });
+        return res.status(200).json({msg: "Product updated successfully"});
+        
+    }catch(e:any){
+        return res.status(500).json({error: e.message});
+    }
+})
+
 export default productRouter;
