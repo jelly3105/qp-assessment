@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true,
+    },
+    cartId: {
+        type: String,
+        required: false
     }
 });
 

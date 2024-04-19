@@ -22,7 +22,8 @@ signUpRouter.post('/api/signup', async (req: Request, res: Response) => {
         user = new User({
             name: name,
             email: email,
-            role: role
+            role: role,
+            cartId: null
         });
         user = await user.save();  
 
