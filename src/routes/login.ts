@@ -14,7 +14,7 @@ loginRouter.post('/api/login', async (req: Request, res: Response) => {
         let user = await User.findOne({email: email});
 
         if(!user) {
-            return res.send("User does not exist! Please Signup!")
+            return res.status(400).json({msg: "User does not exist! Please Signup!"})
         }
 
         const token = jwt.sign({id: user._id},secretKey);

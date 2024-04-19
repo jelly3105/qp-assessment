@@ -15,7 +15,7 @@ signUpRouter.post('/api/signup', async (req: Request, res: Response) => {
         let user = await User.findOne({email: email});
 
         if(user) {
-            return res.send("User already exists! Please login!")
+            return res.status(400).json({msg: "User already exists! Please login!"})
         }
 
         // If user doesnot exist
