@@ -2,11 +2,26 @@ import express, { Router, Request, Response } from "express";
 import admin from "../../middlewares/admin";
 import auth from "../../middlewares/auth";
 import validateEmail from "../../middlewares/validateEmail";
-const addProductRouter:Router = express.Router();
+import Product from "../../models/product";
+const productRouter:Router = express.Router();
 
-addProductRouter.post('/api/addProduct', validateEmail, auth, admin, async (req: Request, res: Response) => {
+productRouter.post('/api/addProduct', validateEmail, auth, admin, async (req: Request, res: Response) => {
     try{
-        return res.send("OK")
+        const {name, category, instock, price} = req.body;
+        let product = await Product.findOne({name:name});
+
+        if(product) {
+            return res.status(400).json({msg: 'product is already present'});
+        }
+
+        product = new Product({
+            name: name,
+            category: category,
+            instock: instock,
+            price: price
+        });
+        product = await product.save(); 
+        return res.status(200).json({msg: "Product saved successfully!"});
         
     }catch(e:any){
         return res.status(500).json({error: e.message});
@@ -14,4 +29,4 @@ addProductRouter.post('/api/addProduct', validateEmail, auth, admin, async (req:
    
 })
 
-export default addProductRouter;
+export default productRouter;
