@@ -15,8 +15,7 @@ signUpRouter.post('/api/signup', async (req: Request, res: Response) => {
         let user = await User.findOne({email: email});
 
         if(user) {
-            res.send("User already exists! Please login!")
-            return;
+            return res.send("User already exists! Please login!")
         }
 
         // If user doesnot exist
@@ -28,9 +27,9 @@ signUpRouter.post('/api/signup', async (req: Request, res: Response) => {
         user = await user.save();  
 
         const token = jwt.sign({id: user._id},secretKey);
-        res.json({user: user,token:token}); // status 200 is sent by default
+        return res.json({user: user,token:token}); // status 200 is sent by default
     }catch(e:any){
-        res.status(500).json({error: e.message});
+        return res.status(500).json({error: e.message});
     }
    
 })

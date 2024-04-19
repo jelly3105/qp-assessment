@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import signUpRouter from "./routes/signup";
 import loginRouter from "./routes/login";
+import addProductRouter from "./routes/product/addProduct";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(cors());
 
 app.use(signUpRouter);
 app.use(loginRouter);
+app.use(addProductRouter);
 
 const DB = `mongodb+srv://AnjaliSherikar:${dbPassword}@cluster0.effefqo.mongodb.net/`;
 

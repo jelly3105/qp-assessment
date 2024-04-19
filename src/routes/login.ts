@@ -14,14 +14,13 @@ loginRouter.post('/api/login', async (req: Request, res: Response) => {
         let user = await User.findOne({email: email});
 
         if(!user) {
-            res.send("User does not exist! Please Signup!")
-            return;
+            return res.send("User does not exist! Please Signup!")
         }
 
         const token = jwt.sign({id: user._id},secretKey);
-        res.json({user: user,token:token}); // status 200 is sent by default
+        return res.json({user: user,token:token}); // status 200 is sent by default
     }catch(e:any){
-        res.status(500).json({error: e.message});
+        return res.status(500).json({error: e.message});
     }
    
 })
