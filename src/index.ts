@@ -2,7 +2,8 @@ import express, { Express } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
-import authRouter from "./routes/signup";
+import signUpRouter from "./routes/signup";
+import loginRouter from "./routes/login";
 
 dotenv.config();
 
@@ -14,7 +15,8 @@ const dbPassword = process.env.DBPASSWORD;
 app.use(express.json());
 app.use(cors());
 
-app.use(authRouter);
+app.use(signUpRouter);
+app.use(loginRouter);
 
 const DB = `mongodb+srv://AnjaliSherikar:${dbPassword}@cluster0.effefqo.mongodb.net/`;
 
